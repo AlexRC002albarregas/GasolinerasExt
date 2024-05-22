@@ -1,0 +1,52 @@
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-gray-50 dark:bg-gray-800" aria-label="Sidebar">
+  <h2 class="text-lg font-bold mb-2 bg-gray-100 dark:bg-gray-700 py-2 px-4 rounded-md border border-gray-300 dark:border-gray-600">FILTROS</h2>
+  <div class="h-full px-3 py-4 overflow-y-auto">
+    <ul class="space-y-2 font-medium">
+      <li>
+        <input class="cursor-pointer" type="radio" (click)="filtrarPorPrecioGasolina()" [checked]="botonSeleccionado === 0"> Precio Gasolina 95
+      </li>
+      <li>
+        <input class="cursor-pointer" type="radio" (click)="filtrarPorPrecioGasoleo()" [checked]="botonSeleccionado === 1"> Precio Gasoleo A
+      </li>
+      <li>
+        <input class="cursor-pointer" type="radio" (click)="filtrar24Horas()" [checked]="botonSeleccionado === 2"> 24 horas
+      </li>
+    </ul>
+  </div>
+</aside>
+
+<div class="p-4" style="width: calc(100% - 16rem); float: right;">
+  <h2 class="text-lg font-bold mb-2">SELECCIONE EL LUGAR DONDE QUIERA VER LAS GASOLINERAS</h2>
+  <select #provinciaSelect class="block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" (change)="selectProvincia(provinciaSelect)">
+    @for (item of data; track $index)
+    {
+      <option [value]="item.IDCCAA">{{ item.CCAA }}</option>
+    }
+  </select>
+
+  <select #municipioSelect class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" (change)="selectMunicipio(municipioSelect)">
+    @for (item of provincias; track $index)
+    {
+      <option [value]="item.IDPovincia">{{ item.Provincia }}</option>
+    }
+  </select>
+
+  <select #ciudadSelect class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" (change)="selectGasofa(ciudadSelect)">
+    @for (item of municipios; track $index)
+    {
+      <option [value]="item.IDMunicipio">{{ item.Municipio }}</option>
+    }
+  </select>
+
+  <div class="grid grid-cols-2 gap-3">
+    @for (item of gasofas; track $index)
+    {
+      <div class="mt-4 border border-gray-300 rounded-md shadow-md p-4">
+        <p class="text-base font-semibold">{{ item.Direccion}}</p>
+        <p class="text-sm">Precio Gasolina 95 E5: {{ item['Precio Gasolina 95 E5'] + '€' }}</p>
+        <p class="text-sm">Precio Gasoleo A: {{ item['Precio Gasoleo A'] + '€'}}</p>
+        <p class="text-sm">Horario {{ item.Horario }}</p>
+      </div>
+    }
+  </div>
+</div>
